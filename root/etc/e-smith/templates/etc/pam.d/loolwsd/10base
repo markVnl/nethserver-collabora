@@ -1,0 +1,9 @@
+# 
+# 10base
+#
+
+auth [success=1 default=ignore] pam_succeed_if.so user in [admin]
+auth [success=ok default=die] pam_succeed_if.so user ingroup [domain admins]
+auth       include      password-auth
+account    include      password-auth
+session    include      password-auth
