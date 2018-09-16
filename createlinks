@@ -11,4 +11,5 @@ event_actions($event, qw(
 
 event_services($event, qw(
                httpd reload
+               loolwsd restart
 ));
