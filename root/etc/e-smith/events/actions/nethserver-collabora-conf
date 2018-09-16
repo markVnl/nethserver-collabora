@@ -3,19 +3,20 @@
 # Get domain from prop or use DomainName
 if [[ -n `config getprop loolwsd Domain` ]]; then domain=`config getprop loolwsd Domain`; else domain=`config get SystemName`.`config get DomainName`; fi
 
+# FIXME - Create cert if not already there -  cert should not be needed as we do reverse proxy
+if [ ! -f /etc/loolwsd/privatekey.pem ]; then openssl genrsa -out /etc/loolwsd/privatekey.pem 4096; fi
+if [ ! -f /etc/loolwsd/fullchain.pem ]; then openssl req -batch -new -x509 -sha512 -days 3650 -key /etc/loolwsd/privatekey.pem -out /etc/loolwsd/fullchain.pem; fi
+
 # Configuration with loolconfig
-# no ssl cert is used
-loolconfig set ssl.cert_file_path ''
-loolconfig set ssl.key_file_path ''
+loolconfig set ssl.cert_file_path /etc/loolwsd/fullchain.pem
+loolconfig set ssl.key_file_path /etc/loolwsd/privatekey.pem
 loolconfig set ssl.ca_file_path ''
-# disable ssl
-loolconfig set ssl.enable false
 loolconfig set storage.wopi.host `echo $domain`
 
 # Set admin user for the web console
 sed -i 's!enabled."/>!enabled.">admin</username>!' /etc/loolwsd/loolwsd.xml
 
-# Set default admin password if not set
+# Set default admin password to Nethesis,1234 if not set
 if grep -q '<secure_password desc="' /etc/loolwsd/loolwsd.xml; then
   echo 'admin password already set'
 else
