@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get domain from prop or use DomainName
-if [[ -n `config getprop loolwsd Domain` ]]; then domain=`config getprop loolwsd Domain`; else domain=`config get DomainName`; fi
+if [[ -n `config getprop loolwsd Domain` ]]; then domain=`config getprop loolwsd Domain`; else domain=`config get SystemName`.`config get DomainName`; fi
 
 # FIXME - Create cert if not already there -  cert should not be needed as we do reverse proxy
 if [ ! -f /etc/loolwsd/privatekey.pem ]; then openssl genrsa -out /etc/loolwsd/privatekey.pem 4096; fi
