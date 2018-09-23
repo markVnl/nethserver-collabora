@@ -11,8 +11,7 @@ class Collabora extends \Nethgui\Module\AbstractModule implements \NethServer\Mo
 
     public function getInfo()
     {
-         $hostname = $this->getPlatform()->getDatabase('configuration')->getType('SystemName');
-         $domain = $this->getPlatform()->getDatabase('configuration')->getType('DomainName');
+         $host = explode(':',$_SERVER['HTTP_HOST']);
          return array(
             'url' => "https://".$host[0]."/loleaflet/dist/admin/admin.html"
          );
