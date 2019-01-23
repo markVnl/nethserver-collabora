@@ -19,12 +19,3 @@ else
   yes | loolconfig set-admin-password
   loolconfig set admin_console.secure_password pbkdf2.sha512.10000.84de78d224a447158478da8b9717c3b66ac842e7217ac6b79bf864cf2cbc2d0be5b76818dd397502286295f8d31742564e0b31efac46fb6dffb6bd10ac9aacd1861af5c3311c749bc046608ee47d86f2978eedf78819bbde26e620d886eed4192234517ff1585c93dc6fde0166ba714268c89f7c41eefd77ada783ad86266dd7.1e2ecb9a387f3f5d48d167cde908f72f115c131307e556eb9c30227ffdfcf4843e3cea4fa80c4bfb830c2c1ab64c920a1902785e06c02f9365778cfd863a6fc0736db0b708a11231e2ecd47a5210b55bef7f7b0ce2f84c820b144313567845a5fa4e5b18c10d021dac5d99fb6e44876f6d39763b341a2b1533355c2485f6e248
 fi
-
-# Install nextcloud collabora richdocuments app
-sudo -u apache /opt/rh/rh-php71/root/usr/bin/php /usr/share/nextcloud/occ app:install richdocuments
-
-# Set wopi_url
-sudo -u apache /opt/rh/rh-php71/root/usr/bin/php /usr/share/nextcloud/occ config:app:set richdocuments wopi_url --value=https:\/\/`echo $domain`
-
-# Enable app
-sudo -u apache /opt/rh/rh-php71/root/usr/bin/php /usr/share/nextcloud/occ app:enable richdocuments

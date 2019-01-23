@@ -9,7 +9,7 @@ License: GPL
 Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
 BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
-Requires: nethserver-nextcloud loolwsd CODE-brand
+Requires: loolwsd CODE-brand
 BuildRequires: nethserver-devtools
 BuildArch: noarch
 
