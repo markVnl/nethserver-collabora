@@ -1,30 +1,38 @@
-<VirtualHost *:443>
-  # Encoded slashes need to be allowed
-  AllowEncodedSlashes NoDecode
+{
+  my $domain = $loolwsd{'Domain'} || '';
 
-  # keep the host
-  ProxyPreserveHost On
+  if ($domain ne '') {
+    $OUT .= "<VirtualHost *:443>\n";
+    $OUT .= "  ServerName $domain\n";
 
-  # static html, js, images, etc. served from loolwsd
-  # loleaflet is the client part of LibreOffice Online
-  ProxyPass           /loleaflet http://127.0.0.1:9980/loleaflet retry=0
-  ProxyPassReverse    /loleaflet http://127.0.0.1:9980/loleaflet
+    $OUT .= "  # Encoded slashes need to be allowed\n";
+    $OUT .= "  AllowEncodedSlashes NoDecode\n";
 
-  # WOPI discovery URL
-  ProxyPass           /hosting/discovery http://127.0.0.1:9980/hosting/discovery retry=0
-  ProxyPassReverse    /hosting/discovery http://127.0.0.1:9980/hosting/discovery
+    $OUT .= "  # keep the host\n";
+    $OUT .= "  ProxyPreserveHost On\n";
 
-  # Main websocket
-  ProxyPassMatch "/lool/(.*)/ws$" ws://127.0.0.1:9980/lool/$1/ws nocanon
+    $OUT .= "  # static html, js, images, etc. served from loolwsd\n";
+    $OUT .= "  # loleaflet is the client part of LibreOffice Online\n";
+    $OUT .= "  ProxyPass           /loleaflet http://127.0.0.1:9980/loleaflet retry=0\n";
+    $OUT .= "  ProxyPassReverse    /loleaflet http://127.0.0.1:9980/loleaflet\n";
 
-  # Admin Console websocket
-  ProxyPass   /lool/adminws ws://127.0.0.1:9980/lool/adminws
+    $OUT .= "  # WOPI discovery URL\n";
+    $OUT .= "  ProxyPass           /hosting/discovery http://127.0.0.1:9980/hosting/discovery retry=0\n";
+    $OUT .= "  ProxyPassReverse    /hosting/discovery http://127.0.0.1:9980/hosting/discovery\n";
 
-  # Download as, Fullscreen presentation and Image upload operations
-  ProxyPass           /lool http://127.0.0.1:9980/lool
-  ProxyPassReverse    /lool http://127.0.0.1:9980/lool
+    $OUT .= "  # Main websocket\n";
+    $OUT .= "  ProxyPassMatch \"/lool/(.*)/ws\$\" ws://127.0.0.1:9980/lool/\$1/ws nocanon\n";
 
-  # Endpoint with information about availability of various features
-  ProxyPass           /hosting/capabilities http://127.0.0.1:9980/hosting/capabilities retry=0
-  ProxyPassReverse    /hosting/capabilities http://127.0.0.1:9980/hosting/capabilities
-</VirtualHost>
+    $OUT .= "  # Admin Console websocket\n";
+    $OUT .= "  ProxyPass   /lool/adminws ws://127.0.0.1:9980/lool/adminws\n";
+
+    $OUT .= "  # Download as, Fullscreen presentation and Image upload operations\n";
+    $OUT .= "  ProxyPass           /lool http://127.0.0.1:9980/lool\n";
+    $OUT .= "  ProxyPassReverse    /lool http://127.0.0.1:9980/lool\n";
+
+    $OUT .= "  # Endpoint with information about availability of various features\n";
+    $OUT .= "  ProxyPass           /hosting/capabilities http://127.0.0.1:9980/hosting/capabilities retry=0\n";
+    $OUT .= "  ProxyPassReverse    /hosting/capabilities http://127.0.0.1:9980/hosting/capabilities\n";
+    $OUT .= "</VirtualHost>\n";
+  }
+}
