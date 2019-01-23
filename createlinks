@@ -9,6 +9,10 @@ event_actions($event, qw(
              nethserver-collabora-conf 20
 ));
 
+event_templates($event, qw(
+  /etc/httpd/conf.d/collabora.conf
+));
+
 event_services($event, qw(
                httpd reload
                loolwsd restart
