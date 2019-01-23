@@ -5,6 +5,8 @@
     $OUT .= "<VirtualHost *:443>\n";
     $OUT .= "  ServerName $domain\n";
 
+    $OUT .= "  SSLEngine on\n";
+
     $OUT .= "  # Encoded slashes need to be allowed\n";
     $OUT .= "  AllowEncodedSlashes NoDecode\n";
 
