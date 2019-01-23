@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get domain from prop
-if [[ -n `config getprop loolwsd Domain` ]]; then loolconfig set storage.wopi.host `config getprop loolwsd Domain`;fi
+if [[ -n `config getprop loolwsd AllowWopiHost` ]]; then loolconfig set storage.wopi.host `config getprop loolwsd AllowWopiHost`;fi
 
 # Disable ssl
 loolconfig set ssl.enable  false
