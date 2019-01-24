@@ -1,5 +1,5 @@
 {
-  my $domain = $loolwsd{'Domain'} || '';
+  my $domain = $loolwsd{'VirtualHost'} || '';
 
   if ($domain ne '') {
     $OUT .= "<VirtualHost *:443>\n";
