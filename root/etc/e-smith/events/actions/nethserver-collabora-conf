@@ -7,3 +7,17 @@ if [[ -n `config getprop loolwsd AllowWopiHost` ]]; then loolconfig set storage.
 loolconfig set ssl.enable  false
 loolconfig set ssl.termination  true
 loolconfig set net.listen loopback
+
+if [[ -n `config getprop loolwsd VirtualHost` ]]; then
+
+  #Configure Nextcloud
+  if [[ -x "/usr/share/nextcloud/occ" ]]; then
+
+    sudo -u apache scl enable rh-php71 "/usr/share/nextcloud/occ app:install richdocuments"
+
+    sudo -u apache scl enable rh-php71 "/usr/share/nextcloud/occ config:app:set richdocuments wopi_url --value=https:\/\/`config getprop loolwsd VirtualHost`"
+
+    sudo -u apache scl enable rh-php71 "/usr/share/nextcloud/occ app:enable richdocuments"
+  fi
+
+fi
