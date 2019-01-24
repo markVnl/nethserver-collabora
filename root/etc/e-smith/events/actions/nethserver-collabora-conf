@@ -1,12 +1,23 @@
 #!/bin/bash
 
-# Get domain from prop
-if [[ -n `config getprop loolwsd AllowWopiHost` ]]; then loolconfig set storage.wopi.host `config getprop loolwsd AllowWopiHost`;fi
-
 # Disable ssl
 loolconfig set ssl.enable  false
 loolconfig set ssl.termination  true
 loolconfig set net.listen loopback
+
+
+#Generate a list of hosts that can access to the wopi storage
+#Server FQDN
+AllowWopiHosts=`hostname`
+
+#Nextcloud virtualhost
+if [[ -n `config getprop nextcloud VirtualHost` ]];then AllowWopiHosts+="|`config getprop nextcloud VirtualHost`";fi
+
+#Additional external host
+if [[ -n `config getprop loolwsd AllowWopiHost` ]];then AllowWopiHosts+="|`config getprop loolwsd AllowWopiHost`";fi
+
+loolconfig set storage.wopi.host "$AllowWopiHosts"
+
 
 if [[ -n `config getprop loolwsd VirtualHost` ]]; then
 
