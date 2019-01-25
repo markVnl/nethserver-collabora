@@ -1,34 +1,53 @@
+#
+# Copyright (C) 2019 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
 #!/bin/bash
 
-# Get domain from prop or use DomainName
-if [[ -n `config getprop loolwsd Domain` ]]; then domain=`config getprop loolwsd Domain`; else domain=`config get SystemName`.`config get DomainName`; fi
+# Disable ssl
+loolconfig set ssl.enable  false
+loolconfig set ssl.termination  true
+loolconfig set net.listen loopback
 
-# FIXME - Create cert if not already there -  cert should not be needed as we do reverse proxy
-if [ ! -f /etc/loolwsd/privatekey.pem ]; then openssl genrsa -out /etc/loolwsd/privatekey.pem 4096; fi
-if [ ! -f /etc/loolwsd/fullchain.pem ]; then openssl req -batch -new -x509 -sha512 -days 3650 -key /etc/loolwsd/privatekey.pem -out /etc/loolwsd/fullchain.pem; fi
 
-# Configuration with loolconfig
-loolconfig set ssl.cert_file_path /etc/loolwsd/fullchain.pem
-loolconfig set ssl.key_file_path /etc/loolwsd/privatekey.pem
-loolconfig set ssl.ca_file_path ''
-loolconfig set storage.wopi.host `echo $domain`
+#Generate a list of hosts that can access to the wopi storage
+#Server FQDN
+AllowWopiHosts=`hostname`
 
-# Set admin user for the web console
-sed -i 's!enabled."/>!enabled.">admin</username>!' /etc/loolwsd/loolwsd.xml
+#Nextcloud virtualhost
+if [[ -n `config getprop nextcloud VirtualHost` ]];then AllowWopiHosts+="|`config getprop nextcloud VirtualHost`";fi
 
-# Set default admin password to Nethesis,1234 if not set
-if grep -q '<secure_password desc="' /etc/loolwsd/loolwsd.xml; then
-  echo 'admin password already set'
-else
-  yes | loolconfig set-admin-password
-  loolconfig set admin_console.secure_password pbkdf2.sha512.10000.84de78d224a447158478da8b9717c3b66ac842e7217ac6b79bf864cf2cbc2d0be5b76818dd397502286295f8d31742564e0b31efac46fb6dffb6bd10ac9aacd1861af5c3311c749bc046608ee47d86f2978eedf78819bbde26e620d886eed4192234517ff1585c93dc6fde0166ba714268c89f7c41eefd77ada783ad86266dd7.1e2ecb9a387f3f5d48d167cde908f72f115c131307e556eb9c30227ffdfcf4843e3cea4fa80c4bfb830c2c1ab64c920a1902785e06c02f9365778cfd863a6fc0736db0b708a11231e2ecd47a5210b55bef7f7b0ce2f84c820b144313567845a5fa4e5b18c10d021dac5d99fb6e44876f6d39763b341a2b1533355c2485f6e248
+#Additional external host
+if [[ -n `config getprop loolwsd AllowWopiHost` ]];then AllowWopiHosts+="|`config getprop loolwsd AllowWopiHost`";fi
+
+loolconfig set storage.wopi.host "$AllowWopiHosts"
+
+
+if [[ -n `config getprop loolwsd VirtualHost` ]]; then
+
+  #Configure Nextcloud
+  if [[ -x "/usr/share/nextcloud/occ" ]]; then
+
+    sudo -u apache scl enable rh-php71 "/usr/share/nextcloud/occ app:install richdocuments"
+
+    sudo -u apache scl enable rh-php71 "/usr/share/nextcloud/occ config:app:set richdocuments wopi_url --value=https:\/\/`config getprop loolwsd VirtualHost`"
+
+    sudo -u apache scl enable rh-php71 "/usr/share/nextcloud/occ app:enable richdocuments"
+  fi
+
 fi
-
-# Install nextcloud collabora richdocuments app
-sudo -u apache /opt/rh/rh-php71/root/usr/bin/php /usr/share/nextcloud/occ app:install richdocuments
-
-# Set wopi_url
-sudo -u apache /opt/rh/rh-php71/root/usr/bin/php /usr/share/nextcloud/occ config:app:set richdocuments wopi_url --value=https:\/\/`echo $domain`
-
-# Enable app
-sudo -u apache /opt/rh/rh-php71/root/usr/bin/php /usr/share/nextcloud/occ app:enable richdocuments

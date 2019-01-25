@@ -1,2 +1,0 @@
-# Nethserver Collabora CODE
-

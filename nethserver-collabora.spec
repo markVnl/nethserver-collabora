@@ -1,25 +1,20 @@
-Summary: nethserver-collabora
-%define name nethserver-collabora
-Name: %{name}
-%define version 0.0.1
-%define release 1
-Version: %{version}
-Release: %{release}%{?dist}
+Summary: Nethserver Collabora Online configuration
+Name: nethserver-collabora
+Version: 0.0.1
+Release: 1%{?dist}
 License: GPL
-Group: Networking/Daemons
 Source: %{name}-%{version}.tar.gz
-BuildRoot: /var/tmp/%{name}-%{version}-%{release}-buildroot
-Requires: nethserver-nextcloud loolwsd CODE-brand
-BuildRequires: nethserver-devtools
 BuildArch: noarch
 
-%description
-Nethserver Collabora
+Requires: loolwsd CODE-brand
 
-%changelog
+BuildRequires: nethserver-devtools
+
+%description
+Nethserver Collabora Online configuration
 
 %prep
-%setup
+%setup -q
 
 %build
 %{makedocs}
@@ -33,12 +28,10 @@ rm -f %{name}-%{version}-%{release}-filelist
 > %{name}-%{version}-%{release}-filelist
 
 %post
-%postun
-
-%clean 
-rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}-%{version}-%{release}-filelist
 %defattr(-,root,root)
 %dir %{_nseventsdir}/%{name}-update
 %doc COPYING
+
+%changelog
