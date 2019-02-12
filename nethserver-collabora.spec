@@ -1,6 +1,6 @@
 Summary: Nethserver Collabora Online configuration
 Name: nethserver-collabora
-Version: 0.0.1
+Version: 0.1.0
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -35,3 +35,6 @@ rm -f %{name}-%{version}-%{release}-filelist
 %doc COPYING
 
 %changelog
+* Tue Feb 12 2019 Matteo Valentini <matteo.valentini@nethesis.it> - 0.1.0-1
+- Collabora Online integration - NethServer/dev#5700
+
