@@ -6,7 +6,7 @@ License: GPL
 Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
 
-Requires: loolwsd >= 4.2.0 CODE-brand >= 4.2.0
+Requires: loolwsd >= 4.2.0 CODE-brand
 
 BuildRequires: nethserver-devtools
 
