@@ -23,6 +23,7 @@
 loolconfig set ssl.enable  false
 loolconfig set ssl.termination  true
 loolconfig set net.listen loopback
+loolconfig set net.proto IPv4
 
 
 #Generate a list of hosts that can access to the wopi storage
