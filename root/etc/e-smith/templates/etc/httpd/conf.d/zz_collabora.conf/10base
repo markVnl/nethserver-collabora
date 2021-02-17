@@ -4,6 +4,19 @@
     if ($VHost ne '') {
         $OUT .= <<EOF
 
+<VirtualHost *:80>
+    IncludeOptional conf.d/default-virtualhost.inc
+</VirtualHost>
+
+
+<VirtualHost *:80>
+   ServerName $VHost
+   RedirectMatch 301 ^(?!/.well-known/acme-challenge/).* https://$VHost
+   RewriteEngine On
+   RewriteCond %\{HTTPS\} !=on
+   RewriteRule (.*) https://%\{SERVER_NAME\}\$1 [R,L]
+</VirtualHost>
+
 
 <VirtualHost *:443>
     ServerName $VHost
