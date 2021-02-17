@@ -23,9 +23,9 @@
 if [[ -x "/usr/local/sbin/occ" ]]; then
 
     if [[ -n `config getprop loolwsd VirtualHost` ]]; then
-        WopiUrl=`config getprop loolwsd VirtualHost`
+        WopiUrl=`/sbin/e-smith/config getprop loolwsd VirtualHost`
     else
-        WopiUrl=collabora.`config get DomainName`
+        WopiUrl=collabora.`/sbin/e-smith/config get DomainName`
     fi
 
     /usr/local/sbin/occ config:app:set richdocuments wopi_url --value=https://$WopiUrl
