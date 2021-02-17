@@ -21,11 +21,17 @@
 
 use esmith::Build::CreateLinks qw(:all);
 
-my $event = 'nethserver-collabora-update';
+$event = 'certificate-update';
+event_actions($event, qw(
+             nethserver-collabora-set-wopi-url 90
+));
 
+
+my $event = 'nethserver-collabora-update';
 event_actions($event, qw(
              initialize-default-databases 00
              nethserver-collabora-conf 20
+             nethserver-collabora-set-wopi-url 21
 ));
 
 event_templates($event, qw(
@@ -36,6 +42,7 @@ event_services($event, qw(
                httpd reload
                loolwsd restart
 ));
+
 
 $event = 'nethserver-nextcloud-update';
 event_actions($event, qw(
