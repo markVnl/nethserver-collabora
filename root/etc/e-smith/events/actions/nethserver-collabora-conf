@@ -31,22 +31,22 @@ loolconfig set net.proto IPv4
 AllowWopiHosts=`hostname`
 
 #Nextcloud virtualhost
-if [[ -n `config getprop nextcloud VirtualHost` ]];then AllowWopiHosts+="|`config getprop nextcloud VirtualHost`";fi
+if [[ -n `/sbin/e-smith/config getprop nextcloud VirtualHost` ]];then AllowWopiHosts+="|`/sbin/e-smith/config getprop nextcloud VirtualHost`";fi
 
 #Additional external host
-if [[ -n `config getprop loolwsd AllowWopiHost` ]];then AllowWopiHosts+="|`config getprop loolwsd AllowWopiHost`";fi
+if [[ -n `/sbin/e-smith/config getprop loolwsd AllowWopiHost` ]];then AllowWopiHosts+="|`/sbin/e-smith/config getprop loolwsd AllowWopiHost`";fi
 
 loolconfig set storage.wopi.host "$AllowWopiHosts"
 
 
-if [[ -n `config getprop loolwsd VirtualHost` ]]; then
+if [[ -n `/sbin/e-smith/config getprop loolwsd VirtualHost` ]]; then
 
   #Configure Nethserver-Nextcloud
   if [[ -x "/usr/local/sbin/occ" ]]; then
 
     /usr/local/sbin/occ app:install richdocuments
 
-    /usr/local/sbin/occ config:app:set richdocuments wopi_url --value=https://`config getprop loolwsd VirtualHost`
+    /usr/local/sbin/occ config:app:set richdocuments wopi_url --value=https://`/sbin/e-smith/config getprop loolwsd VirtualHost`
 
     /usr/local/sbin/occ app:enable richdocuments
   fi
