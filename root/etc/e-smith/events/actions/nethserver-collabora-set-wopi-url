@@ -22,7 +22,7 @@
 #Configure WopiUrl for Nethserver-Nextcloud
 if [[ -x "/usr/local/sbin/occ" ]]; then
 
-    if [[ -n `config getprop loolwsd VirtualHost` ]]; then
+    if [[ -n `/sbin/e-smith/config getprop loolwsd VirtualHost` ]]; then
         WopiUrl=`/sbin/e-smith/config getprop loolwsd VirtualHost`
     else
         WopiUrl=collabora.`/sbin/e-smith/config get DomainName`
