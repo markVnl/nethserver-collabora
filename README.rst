@@ -9,20 +9,38 @@ This package provide Nethserver integration of `Collabora Online Development Edi
 First configuration
 ===================
 
-Collabora Online requires a dedicated virtual host and it's only accessible from HTTPS with a valid certificate.
+Collabora Online requires a dedicated virtual host and it's only accessible from HTTPS.  
+On installation the (default) virtual host ``collabora.server_domain`` is created, an other virtual host can be set by executing:
 
-To configure Collobora Online, execute: ::
+::
 
-  config setprop loolwsd VirtualHost collabora.yourdomain.com
+  config setprop loolwsd VirtualHost loolwsd.yourdomain.com 
   signal-event nethserver-collabora-update
 
-After virtual host configuration, obtain a valid HTTPS certificate via Let's encrypt from ``Server certificate`` section of Server Manager interface.
+It is recommended to obtain a valid HTTPS certificate for the virtual host;
+this can be done via Let's encrypt from ``Server certificate`` section of Server Manager interface.
+
+note: ::
+
+  If no valid certificate is present open the virtual host in your web-browser to add an exception for the certificate.
 
 The package does the following:
 
-* Add server FQDN and Nextcloud custom virtual host, if present, to the trusted domains allowed to access to Collabora Online
-* If nethserver-nextcloud is installed, and the prop ``VirtualHost`` is set, nethserver-collabora-event will automatically enable
-  Nextcloud for use Collabora Online.
+* Create a virtual host for collabora.
+* If nethserver-nextcloud is installed on the same server:
+
+  * Install and configure richdocuments-app
+  * Add server FQDN and Nextcloud custom virtual host, if present, to the trusted domains allowed to access to Collabora Online
+
+
+If your instance of Nextcloud is not installed in the same server of Collabora Online,
+you must set the host name of Nextcloud in the prop ``AllowWopiHost``: ::
+
+  config setprop loolwsd AllowWopiHost nextcloud-office.yourdomain.com
+  signal-event nethserver-collabora-update
+
+Then manually install and configure the Nextcloud `richdocuments app <https://github.com/nextcloud/richdocuments#nextcloud-app>`_.
+
 
 Database
 ========
@@ -42,13 +60,17 @@ examples: ::
   config show loolwsd
   loolwsd=service
     AllowWopiHost=nextcloud-office.yourdomain.com
-    VirtualHost=loolwsd-dev.nethserver.net
+    VirtualHost=loolwsd.yourdomain.com
     status=enable
 
 
 Admin user
 ==========
 
-After installation, admin dashboard can be enable with ``loolconfig set-admin-password`` and accessible at: ::
+After installation, admin dashboard can be enabled with : ::
+
+  loolconfig set-admin-password 
+  
+And is accessible at: ::
 
   https://collabora.yourdomain.com/loleaflet/dist/admin/admin.html
