@@ -36,6 +36,7 @@ event_actions($event, qw(
 
 event_templates($event, qw(
   /etc/httpd/conf.d/zz_collabora.conf
+  /etc/hosts
 ));
 
 event_services($event, qw(
