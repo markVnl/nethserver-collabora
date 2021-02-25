@@ -1,0 +1,11 @@
+{
+    #
+    # 10hosts_self_collabora
+    #
+
+    if (($loolwsd{'VirtualHost'} || '') eq '') {
+        push @hostnames, "collabora.${DomainName}";
+    }
+
+    '';
+}

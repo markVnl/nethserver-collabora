@@ -42,17 +42,8 @@ fi
 
 /usr/bin/loolconfig set storage.wopi.host "$AllowWopiHosts"
 
-
-if [[ -n `/sbin/e-smith/config getprop loolwsd VirtualHost` ]]; then
-    WopiUrl=`config getprop loolwsd VirtualHost`
-else
-    WopiUrl=collabora.`config get DomainName`
-fi
-
-#Configure Nethserver-Nextcloud
+#Install Nethserver-Nextcloud app
 if [[ -x "/usr/local/sbin/occ" ]]; then
     /usr/local/sbin/occ app:install richdocuments
     /usr/local/sbin/occ app:enable richdocuments
-    /usr/local/sbin/occ config:app:set richdocuments wopi_url --value=https://$WopiUrl
-    /usr/local/sbin/occ richdocuments:activate-config
 fi
