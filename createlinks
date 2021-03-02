@@ -51,3 +51,9 @@ event_actions($event, qw(
              nethserver-collabora-conf 70
              nethserver-collabora-set-wopi-url 91
 ));
+
+$event = 'nethserver-nextcloud-save';
+event_actions($event, qw(
+             nethserver-collabora-conf 70
+             nethserver-collabora-set-wopi-url 91
+));
