@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # Copyright (C) 2021 Nethesis S.r.l.
 # http://www.nethesis.it - nethserver@nethesis.it
@@ -17,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with NethServer.  If not, see COPYING.
 #
-#!/bin/bash
+
 
 #Configure WopiUrl for Nethserver-Nextcloud
 if [[ -x "/usr/local/sbin/occ" ]]; then
