@@ -1,6 +1,6 @@
 Summary: Nethserver Collabora Online configuration
 Name: nethserver-collabora
-Version: 0.1.2
+Version: 0.1.3
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -35,6 +35,9 @@ rm -f %{name}-%{version}-%{release}-filelist
 %doc COPYING
 
 %changelog
+* Tue Apr 20 2021 Stephane de Labrusse <stephdl@de-labrusse.fr> - 0.1.3-1
+- Collabora: Add CODE repository but disabled  - NethServer/dev#6490
+
 * Wed Feb 17 2021 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 0.1.2-1
 - Collabora still uses rh-php72 but Nextcloud installs rh-php73 - Bug NethServer/dev#6426
 
