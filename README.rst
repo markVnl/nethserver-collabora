@@ -57,10 +57,6 @@ After installation, admin dashboard can be enable with ``loolconfig set-admin-pa
 Collabora repository
 ====================
 
-Update from CODE repository: ::
+Update from CODE (collabora office developement edition) repository: ::
 
-  yum install yum-utils
-  yum-config-manager --add-repo https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7
-  wget https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7/repodata/repomd.xml.key && rpm --import repomd.xml.key
-  yum update -y --enablerepo=collaboraoffice.com_repos_CollaboraOnline_CODE-centos7
-
+  yum update --enablerepo=collaboraoffice

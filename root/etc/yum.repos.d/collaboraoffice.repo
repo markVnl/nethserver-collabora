@@ -1,0 +1,6 @@
+[collaboraoffice]
+name=added from: https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7
+baseurl=https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7
+gpgcheck=1
+gpgkey=https://www.collaboraoffice.com/repos/CollaboraOnline/CODE-centos7/repodata/repomd.xml.key
+enabled=0
