@@ -7,6 +7,7 @@ Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
 
 Requires: loolwsd >= 4.2.0 CODE-brand
+Requires: collaboraoffice6.4-dict-en
 
 BuildRequires: nethserver-devtools
 
